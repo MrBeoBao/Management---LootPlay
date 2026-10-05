@@ -27,9 +27,8 @@
           </span>
         </div>
 
-        <!-- GIỎ HÀNG TRỐNG -->
+        <!-- EMPTY -->
         <div v-if="items.length === 0" class="empty-cart">
-
           <i class="bx bx-cart-alt"></i>
 
           <h3>Giỏ hàng đang trống</h3>
@@ -45,13 +44,12 @@
             <i class="bx bx-store"></i>
             XEM GAME
           </router-link>
-
         </div>
 
-        <!-- DANH SÁCH GIỎ HÀNG -->
+        <!-- CART -->
         <div v-else class="row g-4">
 
-          <!-- DANH SÁCH GAME -->
+          <!-- ITEMS -->
           <div class="col-lg-8">
 
             <div
@@ -60,7 +58,7 @@
               class="cart-item"
             >
 
-              <!-- ẢNH GAME -->
+              <!-- IMAGE -->
               <div class="game-image">
 
                 <img
@@ -79,7 +77,7 @@
 
               </div>
 
-              <!-- THÔNG TIN GAME -->
+              <!-- INFO -->
               <div class="game-info">
 
                 <h3>
@@ -109,7 +107,7 @@
 
               </div>
 
-              <!-- SỐ LƯỢNG -->
+              <!-- QUANTITY -->
               <div class="quantity-box">
 
                 <button
@@ -153,9 +151,8 @@
 
               </div>
 
-              <!-- TỔNG TIỀN GAME -->
+              <!-- TOTAL -->
               <div class="item-total">
-
                 {{
                   formatPrice(
                     (
@@ -166,10 +163,9 @@
                     Number(item.quantity)
                   )
                 }}
-
               </div>
 
-              <!-- XÓA -->
+              <!-- REMOVE -->
               <button
                 type="button"
                 class="remove-btn"
@@ -186,7 +182,7 @@
 
           </div>
 
-          <!-- TÓM TẮT ĐƠN -->
+          <!-- SUMMARY -->
           <div class="col-lg-4">
 
             <div class="cart-summary">
@@ -194,47 +190,30 @@
               <h2>TÓM TẮT ĐƠN HÀNG</h2>
 
               <div class="summary-row">
-
                 <span>Số sản phẩm</span>
-
-                <strong>
-                  {{ totalItems }}
-                </strong>
-
+                <strong>{{ totalItems }}</strong>
               </div>
 
               <div class="summary-row">
-
                 <span>Tạm tính</span>
-
                 <strong>
                   {{ formatPrice(subTotal) }}
                 </strong>
-
               </div>
 
               <div class="summary-row">
-
                 <span>Phí xử lý</span>
-
-                <strong>
-                  0 ₫
-                </strong>
-
+                <strong>0 ₫</strong>
               </div>
 
               <hr>
 
               <div class="summary-total">
-
-                <span>
-                  TỔNG CỘNG
-                </span>
+                <span>TỔNG CỘNG</span>
 
                 <strong>
                   {{ formatPrice(subTotal) }}
                 </strong>
-
               </div>
 
               <button
@@ -247,7 +226,6 @@
                   items.length === 0
                 "
               >
-
                 <i class="bx bx-credit-card"></i>
 
                 {{
@@ -255,7 +233,6 @@
                     ? 'ĐANG XỬ LÝ...'
                     : 'TIẾN HÀNH THANH TOÁN'
                 }}
-
               </button>
 
               <router-link
@@ -276,9 +253,7 @@
 
     </div>
 
-    <!-- =========================
-         PAYMENT MODAL
-    ========================== -->
+    <!-- PAYMENT MODAL -->
     <div
       v-if="showPaymentModal"
       class="payment-overlay"
@@ -286,7 +261,7 @@
 
       <div class="payment-modal">
 
-        <!-- NÚT ĐÓNG -->
+        <!-- CLOSE -->
         <button
           type="button"
           class="close-payment"
@@ -295,7 +270,7 @@
           <i class="bx bx-x"></i>
         </button>
 
-        <!-- TIÊU ĐỀ -->
+        <!-- HEADER -->
         <div class="payment-header">
 
           <i class="bx bx-credit-card"></i>
@@ -314,7 +289,10 @@
         <div class="qr-container">
 
           <img
-            v-if="qrImage && !qrImageErrorState"
+            v-if="
+              qrImage &&
+              !qrImageErrorState
+            "
             :src="qrImage"
             alt="QR thanh toán Vietcombank"
             class="qr-image"
@@ -322,7 +300,7 @@
           >
 
           <div
-            v-if="qrImageErrorState"
+            v-else
             class="qr-error"
           >
             Không thể tải mã QR.
@@ -330,133 +308,113 @@
 
         </div>
 
-        <!-- THÔNG TIN NGÂN HÀNG -->
+        <!-- BANK INFO -->
         <div class="payment-information">
 
           <div class="payment-row">
-
-            <span>
-              Ngân hàng
-            </span>
-
-            <strong>
-              Vietcombank
-            </strong>
-
+            <span>Ngân hàng</span>
+            <strong>Vietcombank</strong>
           </div>
 
           <div class="payment-row">
-
-            <span>
-              Chủ tài khoản
-            </span>
-
-            <strong>
-              HOANG ANH TUAN
-            </strong>
-
+            <span>Chủ tài khoản</span>
+            <strong>HOANG ANH TUAN</strong>
           </div>
 
           <div class="payment-row">
-
-            <span>
-              Số tài khoản
-            </span>
-
-            <strong>
-              1048703459
-            </strong>
-
+            <span>Số tài khoản</span>
+            <strong>1048703459</strong>
           </div>
 
           <div class="payment-row">
-
-            <span>
-              Số tiền
-            </span>
-
+            <span>Số tiền</span>
             <strong class="payment-amount">
               {{ formatPrice(paymentAmount) }}
             </strong>
-
-          </div>
-
-          <div
-            v-if="paymentTransactionCode"
-            class="payment-row"
-          >
-
-            <span>
-              Mã giao dịch
-            </span>
-
-            <strong>
-              {{ paymentTransactionCode }}
-            </strong>
-
           </div>
 
           <div
             v-if="currentOrder"
             class="payment-row"
           >
-
-            <span>
-              Mã đơn hàng
-            </span>
+            <span>Mã đơn hàng</span>
 
             <strong>
               {{ currentOrder.order_code }}
             </strong>
+          </div>
 
+          <div
+            v-if="paymentTransactionCode"
+            class="payment-row"
+          >
+            <span>Mã giao dịch</span>
+
+            <strong>
+              {{ paymentTransactionCode }}
+            </strong>
           </div>
 
         </div>
 
-        <!-- LƯU Ý -->
+        <!-- NOTE -->
         <div class="payment-note">
 
           <i class="bx bx-info-circle"></i>
 
           <div>
-
-            <strong>
-              Lưu ý
-            </strong>
+            <strong>Lưu ý</strong>
 
             <p>
               Vui lòng chuyển đúng số tiền hiển thị.
             </p>
 
             <p>
-              Nội dung chuyển khoản nên sử dụng
-              mã đơn hàng.
+              Nội dung chuyển khoản nên sử dụng mã đơn hàng.
             </p>
 
             <p>
-              Hệ thống sẽ tự động kiểm tra trạng thái
-              thanh toán sau khi nhận được giao dịch.
+              Đây là giao diện thanh toán DEMO.
             </p>
-
           </div>
 
         </div>
 
-        <!-- ĐANG CHỜ -->
+        <!-- WAITING -->
         <div
           v-if="paymentStatus === 'pending'"
           class="payment-waiting"
         >
-
           <i class="bx bx-time-five"></i>
 
           <span>
             Đang chờ xác nhận thanh toán...
           </span>
+        </div>
+
+        <!-- SUCCESS -->
+        <div
+          v-else-if="paymentStatus === 'paid'"
+          class="payment-success"
+        >
+
+          <i class="bx bx-check-circle"></i>
+
+          <div>
+            <strong>
+              THANH TOÁN THÀNH CÔNG
+            </strong>
+
+            <p>
+              Đơn hàng
+              {{ currentOrder?.order_code }}
+              đã được thanh toán.
+            </p>
+          </div>
 
         </div>
 
-        <!-- XÁC NHẬN THANH TOÁN DEMO -->
+        <!-- DEMO PAYMENT -->
         <button
           v-if="paymentStatus === 'pending'"
           type="button"
@@ -471,44 +429,7 @@
           }}
         </button>
 
-        <!-- THANH TOÁN THÀNH CÔNG -->
-        <div
-          v-else-if="paymentStatus === 'paid'"
-          class="payment-success"
-        >
-
-          <i class="bx bx-check-circle"></i>
-
-          <div>
-
-            <strong>
-              THANH TOÁN THÀNH CÔNG
-            </strong>
-
-            <p>
-              Đã nhận được thanh toán cho đơn hàng
-              {{ currentOrder?.order_code }}
-            </p>
-
-          </div>
-
-        </div>
-
-        <!-- TRẠNG THÁI KHÁC -->
-        <div
-          v-else
-          class="payment-waiting"
-        >
-
-          <i class="bx bx-time-five"></i>
-
-          <span>
-            Đang kiểm tra thanh toán...
-          </span>
-
-        </div>
-
-        <!-- NÚT ĐÓNG -->
+        <!-- CLOSE -->
         <button
           type="button"
           class="payment-done-btn"
@@ -528,6 +449,7 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'Cart',
@@ -546,9 +468,7 @@ export default {
 
       user: null,
 
-      // =========================
-      // THANH TOÁN
-      // =========================
+      // PAYMENT
       showPaymentModal: false,
 
       qrImage: '',
@@ -563,56 +483,37 @@ export default {
 
       paymentStatus: 'pending',
 
-      demoPaymentLoading: false,
+      paymentCheckInterval: null,
 
-      paymentCheckInterval: null
+      demoPaymentLoading: false
     }
   },
 
   computed: {
 
-    // =========================
-    // TỔNG SỐ LƯỢNG
-    // =========================
     totalItems() {
-
       return this.items.reduce(
         (total, item) => {
-
           return total +
-            Number(
-              item.quantity || 0
-            )
-
+            Number(item.quantity || 0)
         },
         0
       )
     },
 
-    // =========================
-    // TỔNG TIỀN
-    // =========================
     subTotal() {
-
       return this.items.reduce(
         (total, item) => {
 
-          const price =
-            item.game
-              ? Number(item.game.price)
-              : 0
+          const price = item.game
+            ? Number(item.game.price)
+            : 0
 
           const quantity =
-            Number(
-              item.quantity || 0
-            )
+            Number(item.quantity || 0)
 
           return total +
-            (
-              price *
-              quantity
-            )
-
+            price * quantity
         },
         0
       )
@@ -620,22 +521,56 @@ export default {
   },
 
   mounted() {
-
     this.loadCart()
-
   },
 
   beforeUnmount() {
-
     this.stopPaymentStatusChecking()
-
   },
 
   methods: {
 
-    // =========================
-    // LẤY GIỎ HÀNG
-    // =========================
+    // ==================================================
+    // LẤY USER
+    // ==================================================
+    getUserFromStorage() {
+
+      const savedUser =
+        localStorage.getItem('user')
+
+      if (!savedUser) {
+        return null
+      }
+
+      try {
+
+        const parsedUser =
+          JSON.parse(savedUser)
+
+        if (
+          parsedUser &&
+          parsedUser.user
+        ) {
+          return parsedUser.user
+        }
+
+        return parsedUser
+
+      } catch (error) {
+
+        console.error(
+          'Lỗi đọc user:',
+          error
+        )
+
+        return null
+      }
+    },
+
+
+    // ==================================================
+    // LOAD CART
+    // ==================================================
     async loadCart() {
 
       this.loading = true
@@ -644,19 +579,19 @@ export default {
 
       try {
 
-        const savedUser =
-          localStorage.getItem('user')
+        this.user =
+          this.getUserFromStorage()
 
-        if (!savedUser) {
+        if (
+          !this.user ||
+          !this.user.id
+        ) {
 
           this.error =
-            'Vui lòng đăng nhập để xem giỏ hàng.'
+            'Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.'
 
           return
         }
-
-        this.user =
-          JSON.parse(savedUser)
 
         const response =
           await fetch(
@@ -670,7 +605,7 @@ export default {
 
           throw new Error(
             data.message ||
-            'Không thể tải giỏ hàng'
+            'Không thể tải giỏ hàng.'
           )
         }
 
@@ -688,13 +623,13 @@ export default {
       } finally {
 
         this.loading = false
-
       }
     },
 
-    // =========================
-    // TĂNG SỐ LƯỢNG
-    // =========================
+
+    // ==================================================
+    // TĂNG
+    // ==================================================
     async increaseQuantity(item) {
 
       if (
@@ -710,9 +645,10 @@ export default {
       )
     },
 
-    // =========================
-    // GIẢM SỐ LƯỢNG
-    // =========================
+
+    // ==================================================
+    // GIẢM
+    // ==================================================
     async decreaseQuantity(item) {
 
       if (
@@ -734,9 +670,10 @@ export default {
       )
     },
 
-    // =========================
-    // CẬP NHẬT SỐ LƯỢNG
-    // =========================
+
+    // ==================================================
+    // UPDATE QUANTITY
+    // ==================================================
     async updateQuantity(
       item,
       quantity
@@ -746,6 +683,21 @@ export default {
         this.updating ||
         this.checkoutLoading
       ) {
+        return
+      }
+
+      this.user =
+        this.getUserFromStorage()
+
+      if (
+        !this.user ||
+        !this.user.id
+      ) {
+
+        alert(
+          'Không tìm thấy người dùng. Vui lòng đăng nhập lại.'
+        )
+
         return
       }
 
@@ -776,10 +728,17 @@ export default {
 
               headers: {
                 'Content-Type':
+                  'application/json',
+
+                'Accept':
                   'application/json'
               },
 
               body: JSON.stringify({
+
+                user_id:
+                  this.user.id,
+
                 cart_item_id:
                   item.id,
 
@@ -796,12 +755,15 @@ export default {
 
           throw new Error(
             data.message ||
-            'Không thể cập nhật số lượng'
+            'Không thể cập nhật số lượng.'
           )
         }
 
         item.quantity =
-          quantity
+          Number(
+            data.cart_item?.quantity ||
+            quantity
+          )
 
       } catch (error) {
 
@@ -815,13 +777,13 @@ export default {
       } finally {
 
         this.updating = false
-
       }
     },
 
-    // =========================
-    // XÓA SẢN PHẨM
-    // =========================
+
+    // ==================================================
+    // REMOVE
+    // ==================================================
     async removeItem(item) {
 
       if (
@@ -831,9 +793,26 @@ export default {
         return
       }
 
+      this.user =
+        this.getUserFromStorage()
+
+      if (
+        !this.user ||
+        !this.user.id
+      ) {
+
+        alert(
+          'Không tìm thấy người dùng. Vui lòng đăng nhập lại.'
+        )
+
+        return
+      }
+
       const confirmed =
         confirm(
-          `Bạn có chắc muốn xóa "${item.game?.name || 'sản phẩm'}" khỏi giỏ hàng không?`
+          `Bạn có chắc muốn xóa "${
+            item.game?.name || 'sản phẩm'
+          }" khỏi giỏ hàng không?`
         )
 
       if (!confirmed) {
@@ -848,7 +827,20 @@ export default {
           await fetch(
             `http://127.0.0.1:8000/api/cart/remove/${item.id}`,
             {
-              method: 'DELETE'
+              method: 'DELETE',
+
+              headers: {
+                'Content-Type':
+                  'application/json',
+
+                'Accept':
+                  'application/json'
+              },
+
+              body: JSON.stringify({
+                user_id:
+                  this.user.id
+              })
             }
           )
 
@@ -859,7 +851,7 @@ export default {
 
           throw new Error(
             data.message ||
-            'Không thể xóa sản phẩm'
+            'Không thể xóa sản phẩm.'
           )
         }
 
@@ -881,13 +873,13 @@ export default {
       } finally {
 
         this.updating = false
-
       }
     },
 
-    // =========================
-    // THANH TOÁN
-    // =========================
+
+    // ==================================================
+    // CHECKOUT
+    // ==================================================
     async checkout() {
 
       if (
@@ -897,10 +889,16 @@ export default {
         return
       }
 
-      if (!this.user) {
+      this.user =
+        this.getUserFromStorage()
+
+      if (
+        !this.user ||
+        !this.user.id
+      ) {
 
         alert(
-          'Vui lòng đăng nhập trước khi thanh toán.'
+          'Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.'
         )
 
         return
@@ -926,14 +924,12 @@ export default {
 
       this.checkoutLoading = true
 
-      this.error = ''
-
       try {
 
-        // =========================
-        // BƯỚC 1
-        // TẠO ĐƠN HÀNG
-        // =========================
+        // ==============================================
+        // 1. TẠO ORDER
+        // ==============================================
+
         const orderResponse =
           await fetch(
             'http://127.0.0.1:8000/api/orders',
@@ -942,6 +938,9 @@ export default {
 
               headers: {
                 'Content-Type':
+                  'application/json',
+
+                'Accept':
                   'application/json'
               },
 
@@ -966,10 +965,21 @@ export default {
         const order =
           orderData.order
 
-        // =========================
-        // BƯỚC 2
-        // TẠO PAYMENT
-        // =========================
+        if (
+          !order ||
+          !order.id
+        ) {
+
+          throw new Error(
+            'Backend không trả về thông tin đơn hàng.'
+          )
+        }
+
+
+        // ==============================================
+        // 2. TẠO PAYMENT
+        // ==============================================
+
         const paymentResponse =
           await fetch(
             'http://127.0.0.1:8000/api/payments',
@@ -978,6 +988,9 @@ export default {
 
               headers: {
                 'Content-Type':
+                  'application/json',
+
+                'Accept':
                   'application/json'
               },
 
@@ -998,43 +1011,42 @@ export default {
 
           throw new Error(
             paymentData.message ||
-            'Không thể tạo yêu cầu thanh toán.'
+            'Không thể tạo thanh toán.'
           )
         }
 
         const payment =
           paymentData.payment
 
-        // =========================
-        // LƯU THÔNG TIN
-        // =========================
+
+        // ==============================================
+        // 3. LƯU ORDER
+        // ==============================================
+
         this.currentOrder =
           order
 
         this.paymentAmount =
           Number(
-            payment.amount
+            payment.amount ||
+            order.total_amount ||
+            0
           )
 
         this.paymentTransactionCode =
-          payment.transaction_code ||
-          ''
+          payment.transaction_code || ''
 
         this.paymentStatus =
-          payment.status ||
-          'pending'
+          payment.status || 'pending'
 
-        this.demoPaymentLoading =
-          false
 
-        // =========================
-        // TẠO QR
-        // =========================
+        // ==============================================
+        // 4. TẠO QR
+        // ==============================================
+
         const amount =
           Math.round(
-            Number(
-              payment.amount
-            )
+            this.paymentAmount
           )
 
         const orderCode =
@@ -1056,20 +1068,28 @@ export default {
         this.qrImageErrorState =
           false
 
-        // =========================
-        // HIỆN MODAL
-        // =========================
+
+        // ==============================================
+        // 5. HIỆN MODAL
+        // ==============================================
+
         this.showPaymentModal =
           true
 
-        // =========================
-        // BẮT ĐẦU KIỂM TRA PAYMENT
-        // =========================
+
+        // ==============================================
+        // 6. KIỂM TRA PAYMENT
+        // ==============================================
+
         this.startPaymentStatusChecking(
           order.id
         )
 
-        // Backend đã xử lý giỏ hàng
+
+        // ==============================================
+        // 7. CART ĐÃ ĐƯỢC BACKEND XỬ LÝ
+        // ==============================================
+
         this.items = []
 
       } catch (error) {
@@ -1085,13 +1105,13 @@ export default {
 
         this.checkoutLoading =
           false
-
       }
     },
 
-    // =========================
-    // XÁC NHẬN THANH TOÁN DEMO
-    // =========================
+
+    // ==================================================
+    // DEMO PAYMENT
+    // ==================================================
     async confirmDemoPayment() {
 
       if (
@@ -1106,7 +1126,9 @@ export default {
         return
       }
 
-      if (this.demoPaymentLoading) {
+      if (
+        this.demoPaymentLoading
+      ) {
         return
       }
 
@@ -1123,10 +1145,14 @@ export default {
 
               headers: {
                 'Content-Type':
+                  'application/json',
+
+                'Accept':
                   'application/json'
               },
 
               body: JSON.stringify({
+
                 order_id:
                   this.currentOrder.id,
 
@@ -1153,6 +1179,10 @@ export default {
           data
         )
 
+        await this.checkPaymentStatus(
+          this.currentOrder.id
+        )
+
       } catch (error) {
 
         console.error(error)
@@ -1166,13 +1196,62 @@ export default {
 
         this.demoPaymentLoading =
           false
-
       }
     },
 
-    // =========================
-    // KIỂM TRA TRẠNG THÁI THANH TOÁN
-    // =========================
+
+    // ==================================================
+    // CHECK PAYMENT
+    // ==================================================
+    async checkPaymentStatus(orderId) {
+
+      try {
+
+        const response =
+          await fetch(
+            `http://127.0.0.1:8000/api/payments/${orderId}`
+          )
+
+        const data =
+          await response.json()
+
+        if (!response.ok) {
+          return
+        }
+
+        const payment =
+          data.payment
+
+        if (!payment) {
+          return
+        }
+
+        this.paymentStatus =
+          payment.status
+
+        if (
+          payment.status === 'paid'
+        ) {
+
+          this.paymentTransactionCode =
+            payment.transaction_code || ''
+
+          this.stopPaymentStatusChecking()
+        }
+
+      } catch (error) {
+
+        console.error(
+          'Lỗi kiểm tra thanh toán:',
+          error
+        )
+      }
+    },
+
+
+    // ==================================================
+    // START PAYMENT CHECK
+    // ==================================================
     startPaymentStatusChecking(orderId) {
 
       this.stopPaymentStatusChecking()
@@ -1181,62 +1260,19 @@ export default {
         'pending'
 
       this.paymentCheckInterval =
-        setInterval(async () => {
+        setInterval(() => {
 
-          try {
-
-            const response =
-              await fetch(
-                `http://127.0.0.1:8000/api/payments/${orderId}`
-              )
-
-            const data =
-              await response.json()
-
-            if (!response.ok) {
-              return
-            }
-
-            const payment =
-              data.payment
-
-            if (!payment) {
-              return
-            }
-
-            this.paymentStatus =
-              payment.status
-
-            // =========================
-            // ĐÃ THANH TOÁN
-            // =========================
-            if (
-              payment.status === 'paid'
-            ) {
-
-              this.paymentTransactionCode =
-                payment.transaction_code ||
-                ''
-
-              this.stopPaymentStatusChecking()
-
-            }
-
-          } catch (error) {
-
-            console.error(
-              'Lỗi kiểm tra thanh toán:',
-              error
-            )
-
-          }
+          this.checkPaymentStatus(
+            orderId
+          )
 
         }, 3000)
     },
 
-    // =========================
-    // DỪNG KIỂM TRA THANH TOÁN
-    // =========================
+
+    // ==================================================
+    // STOP PAYMENT CHECK
+    // ==================================================
     stopPaymentStatusChecking() {
 
       if (
@@ -1252,31 +1288,32 @@ export default {
       }
     },
 
-    // =========================
-    // QR BỊ LỖI
-    // =========================
+
+    // ==================================================
+    // QR ERROR
+    // ==================================================
     qrImageError() {
 
       this.qrImageErrorState =
         true
-
     },
 
-    // =========================
-    // ĐÓNG QR
-    // =========================
+
+    // ==================================================
+    // CLOSE PAYMENT
+    // ==================================================
     closePaymentModal() {
 
       this.showPaymentModal =
         false
 
       this.stopPaymentStatusChecking()
-
     },
 
-    // =========================
-    // FORMAT TIỀN
-    // =========================
+
+    // ==================================================
+    // FORMAT PRICE
+    // ==================================================
     formatPrice(price) {
 
       return Number(
@@ -1284,11 +1321,11 @@ export default {
       ).toLocaleString(
         'vi-VN'
       ) + ' ₫'
-
     }
   }
 }
 </script>
+
 
 <style scoped>
 
@@ -1301,7 +1338,7 @@ export default {
 
 .container {
   max-width: 1200px;
-  margin: 0 auto;
+  margin: auto;
 }
 
 /* HEADER */
@@ -1326,13 +1363,11 @@ export default {
 
 .cart-header span {
   color: #777;
-  font-size: 15px;
 }
 
-/* CART ITEM */
+/* ITEM */
 
 .cart-item {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 18px;
@@ -1340,8 +1375,7 @@ export default {
   border-radius: 12px;
   padding: 18px;
   margin-bottom: 15px;
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,.06);
 }
 
 .game-image {
@@ -1369,8 +1403,6 @@ export default {
   font-size: 30px;
 }
 
-/* GAME INFO */
-
 .game-info {
   flex: 1;
   min-width: 0;
@@ -1383,17 +1415,16 @@ export default {
   color: #222;
 }
 
-.game-info .category {
+.category {
   margin: 0 0 7px;
-  font-size: 13px;
   color: #888;
+  font-size: 13px;
 }
 
-.game-info .price {
+.price {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
   color: #e63946;
+  font-weight: 600;
 }
 
 /* QUANTITY */
@@ -1411,6 +1442,7 @@ export default {
   height: 35px;
   border: none;
   background: #f5f5f5;
+  color: #222;
   font-size: 20px;
   cursor: pointer;
 }
@@ -1420,8 +1452,8 @@ export default {
 }
 
 .quantity-box button:disabled {
+  opacity: .5;
   cursor: not-allowed;
-  opacity: 0.5;
 }
 
 .quantity-box input {
@@ -1431,6 +1463,8 @@ export default {
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   text-align: center;
+  color: #222;
+  background: #fff;
   outline: none;
 }
 
@@ -1439,7 +1473,6 @@ export default {
 .item-total {
   width: 120px;
   text-align: right;
-  font-size: 16px;
   font-weight: 700;
   color: #222;
 }
@@ -1459,8 +1492,7 @@ export default {
 }
 
 .remove-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  opacity: .5;
 }
 
 /* SUMMARY */
@@ -1469,8 +1501,7 @@ export default {
   background: #fff;
   border-radius: 12px;
   padding: 25px;
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,.06);
   position: sticky;
   top: 20px;
 }
@@ -1478,13 +1509,11 @@ export default {
 .cart-summary h2 {
   margin: 0 0 25px;
   font-size: 20px;
-  font-weight: 700;
   color: #222;
 }
 
 .summary-row {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
   color: #666;
@@ -1494,54 +1523,49 @@ export default {
   color: #222;
 }
 
-.cart-summary hr {
-  margin: 20px 0;
-  border-color: #ddd;
-}
-
 .summary-total {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
 .summary-total span {
-  font-size: 16px;
   font-weight: 700;
+  color: #222;
 }
 
 .summary-total strong {
-  font-size: 21px;
   color: #e63946;
+  font-size: 21px;
 }
 
-/* CHECKOUT */
+/* BUTTON */
 
-.checkout-btn {
+.checkout-btn,
+.payment-done-btn,
+.payment-demo-btn {
   width: 100%;
   border: none;
   border-radius: 8px;
-  background: #111827;
-  color: #fff;
-  padding: 13px 15px;
+  padding: 13px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: 0.2s;
+}
+
+.checkout-btn {
+  background: #111827;
+  color: #fff;
 }
 
 .checkout-btn:hover:not(:disabled) {
   background: #000;
 }
 
-.checkout-btn:disabled {
-  opacity: 0.6;
+.checkout-btn:disabled,
+.payment-demo-btn:disabled {
+  opacity: .6;
   cursor: not-allowed;
-}
-
-.checkout-btn i {
-  margin-right: 7px;
 }
 
 .continue-shopping {
@@ -1550,22 +1574,16 @@ export default {
   margin-top: 15px;
   color: #555;
   text-decoration: none;
-  font-size: 14px;
 }
 
-.continue-shopping:hover {
-  color: #111;
-}
-
-/* EMPTY CART */
+/* EMPTY */
 
 .empty-cart {
   background: #fff;
   border-radius: 12px;
   text-align: center;
   padding: 70px 20px;
-  box-shadow:
-    0 4px 15px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,.06);
 }
 
 .empty-cart > i {
@@ -1575,8 +1593,7 @@ export default {
 
 .empty-cart h3 {
   margin-top: 20px;
-  margin-bottom: 10px;
-  font-size: 24px;
+  color: #222;
 }
 
 .empty-cart p {
@@ -1586,367 +1603,232 @@ export default {
 
 .continue-btn {
   display: inline-flex;
-  align-items: center;
   gap: 7px;
   padding: 12px 22px;
   border-radius: 8px;
   background: #111827;
   color: #fff;
   text-decoration: none;
-  font-weight: 600;
 }
 
-.continue-btn:hover {
-  background: #000;
-  color: #fff;
-}
-
-/* PAYMENT OVERLAY */
+/* =========================================
+   PAYMENT
+========================================= */
 
 .payment-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(0, 0, 0, 0.65);
-
+  background: rgba(0,0,0,.65);
   display: flex;
   align-items: center;
   justify-content: center;
-
   padding: 20px;
-
   overflow-y: auto;
 }
-
-/* PAYMENT MODAL */
 
 .payment-modal {
   position: relative;
-
   width: 100%;
   max-width: 500px;
-
   max-height: 95vh;
-
   overflow-y: auto;
-
   background: #fff;
-
   border-radius: 18px;
-
   padding: 30px;
-
-  box-shadow:
-    0 15px 50px rgba(0, 0, 0, 0.25);
+  color: #222 !important;
 }
-
-/* CLOSE */
 
 .close-payment {
   position: absolute;
-
   top: 15px;
   right: 15px;
-
   width: 38px;
   height: 38px;
-
   border: none;
-
   border-radius: 50%;
-
   background: #f1f1f1;
-
-  color: #555;
-
+  color: #222 !important;
   font-size: 24px;
-
   cursor: pointer;
-}
-
-.close-payment:hover {
-  background: #e5e5e5;
 }
 
 /* PAYMENT HEADER */
 
 .payment-header {
   text-align: center;
-
   margin-bottom: 20px;
 }
 
 .payment-header > i {
   font-size: 42px;
-
-  color: #087f5b;
+  color: #087f5b !important;
 }
 
 .payment-header h2 {
   margin: 8px 0;
-
   font-size: 21px;
-
-  font-weight: 700;
+  color: #222 !important;
 }
 
 .payment-header p {
   margin: 0;
-
-  color: #777;
-
-  font-size: 14px;
+  color: #777 !important;
 }
 
 /* QR */
 
 .qr-container {
   display: flex;
-
   justify-content: center;
-  align-items: center;
-
   min-height: 290px;
-
   margin: 15px 0 20px;
 }
 
 .qr-image {
-  display: block;
-
   width: 290px;
-
   max-width: 100%;
-
   height: auto;
-
   border-radius: 10px;
 }
 
 .qr-error {
   padding: 20px;
-
-  color: #dc3545;
-
-  font-size: 14px;
-
-  text-align: center;
+  color: #dc3545 !important;
 }
 
 /* PAYMENT INFORMATION */
 
 .payment-information {
   border: 1px solid #e5e5e5;
-
   border-radius: 10px;
-
   padding: 15px;
-
   background: #fafafa;
+  color: #222 !important;
 }
 
 .payment-row {
   display: flex;
-
-  align-items: center;
-
   justify-content: space-between;
-
+  align-items: center;
   gap: 15px;
-
   padding: 8px 0;
-
   font-size: 14px;
+  color: #222 !important;
 }
 
 .payment-row span {
-  color: #777;
+  color: #777 !important;
+  font-weight: 400;
 }
 
 .payment-row strong {
-  color: #222;
-
+  color: #222 !important;
   text-align: right;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .payment-amount {
   color: #e63946 !important;
-
   font-size: 17px;
+  font-weight: 700 !important;
 }
 
 /* PAYMENT NOTE */
 
 .payment-note {
   display: flex;
-
   gap: 10px;
-
   margin-top: 15px;
-
   padding: 13px;
-
   border-radius: 9px;
-
   background: #fff8e1;
-
-  color: #665c3b;
+  color: #665c3b !important;
 }
 
 .payment-note > i {
-  font-size: 22px;
-
+  color: #665c3b !important;
   flex-shrink: 0;
 }
 
 .payment-note strong {
-  display: block;
-
-  margin-bottom: 4px;
+  color: #665c3b !important;
 }
 
 .payment-note p {
   margin: 2px 0;
-
   font-size: 13px;
-
-  line-height: 1.5;
+  color: #665c3b !important;
 }
 
 /* WAITING */
 
 .payment-waiting {
   display: flex;
-
-  align-items: center;
-
   justify-content: center;
-
   gap: 8px;
-
   margin: 18px 0;
-
   padding: 12px;
-
   border-radius: 8px;
-
   background: #eef6ff;
-
-  color: #1769aa;
-
-  font-size: 14px;
-
+  color: #1769aa !important;
   font-weight: 600;
 }
 
-.payment-waiting i {
-  font-size: 22px;
+.payment-waiting i,
+.payment-waiting span {
+  color: #1769aa !important;
 }
 
-/* PAYMENT DEMO BUTTON */
+/* SUCCESS */
+
+.payment-success {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 18px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background: #e8f8ef;
+  color: #198754 !important;
+}
+
+.payment-success > i {
+  font-size: 32px;
+  color: #198754 !important;
+}
+
+.payment-success strong {
+  display: block;
+  color: #198754 !important;
+}
+
+.payment-success p {
+  margin: 3px 0 0;
+  font-size: 13px;
+  color: #198754 !important;
+}
+
+/* DEMO */
 
 .payment-demo-btn {
-  width: 100%;
-
-  border: none;
-
-  border-radius: 8px;
-
-  padding: 13px;
-
   margin-bottom: 12px;
-
   background: #198754;
-
-  color: #fff;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition: 0.2s;
+  color: #fff !important;
 }
 
 .payment-demo-btn:hover:not(:disabled) {
   background: #157347;
 }
 
-.payment-demo-btn:disabled {
-  opacity: 0.6;
-
-  cursor: not-allowed;
-}
-
-/* PAYMENT SUCCESS */
-
-.payment-success {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 12px;
-
-  margin: 18px 0;
-
-  padding: 15px;
-
-  border-radius: 8px;
-
-  background: #e8f8ef;
-
-  color: #198754;
-
-  font-size: 14px;
-
-  font-weight: 600;
-}
-
-.payment-success > i {
-  font-size: 32px;
-
-  flex-shrink: 0;
-}
-
-.payment-success strong {
-  display: block;
-
-  margin-bottom: 3px;
-
-  font-size: 15px;
-}
-
-.payment-success p {
-  margin: 0;
-
-  font-size: 13px;
-
-  font-weight: 400;
-}
-
-/* PAYMENT DONE BUTTON */
+/* DONE */
 
 .payment-done-btn {
-  width: 100%;
-
-  border: none;
-
-  border-radius: 8px;
-
-  padding: 13px;
-
   background: #111827;
-
-  color: #fff;
-
-  font-size: 14px;
-
-  font-weight: 700;
-
-  cursor: pointer;
+  color: #fff !important;
 }
 
 .payment-done-btn:hover {
@@ -1971,22 +1853,11 @@ export default {
 
   .game-info {
     width: calc(100% - 130px);
-
     flex: none;
-  }
-
-  .quantity-box {
-    margin-left: 128px;
   }
 
   .item-total {
     width: auto;
-
-    margin-left: auto;
-  }
-
-  .remove-btn {
-    margin-left: auto;
   }
 
 }
@@ -1995,21 +1866,17 @@ export default {
 
   .cart-header {
     flex-direction: column;
-
     align-items: flex-start;
-
     gap: 8px;
   }
 
   .cart-item {
     padding: 14px;
-
     gap: 12px;
   }
 
   .game-image {
     width: 90px;
-
     height: 65px;
   }
 
@@ -2019,16 +1886,6 @@ export default {
 
   .game-info h3 {
     font-size: 16px;
-  }
-
-  .quantity-box {
-    margin-left: 0;
-  }
-
-  .item-total {
-    margin-left: 0;
-
-    width: auto;
   }
 
   .payment-modal {
@@ -2041,9 +1898,7 @@ export default {
 
   .payment-row {
     flex-direction: column;
-
     align-items: flex-start;
-
     gap: 2px;
   }
 
